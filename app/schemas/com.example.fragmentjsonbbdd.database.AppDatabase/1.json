@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c289f01f3ad3d479577684fec83965d6",
+    "entities": [
+      {
+        "tableName": "Tipo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tipoId` INTEGER PRIMARY KEY AUTOINCREMENT, `nombre` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "tipoId",
+            "columnName": "tipoId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tipoId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Pelicula",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`peliculaId` INTEGER PRIMARY KEY AUTOINCREMENT, `nombre` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "peliculaId",
+            "columnName": "peliculaId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "peliculaId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "TipoPeliculaCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tipoId` INTEGER NOT NULL, `peliculaId` INTEGER NOT NULL, PRIMARY KEY(`tipoId`, `peliculaId`))",
+        "fields": [
+          {
+            "fieldPath": "tipoId",
+            "columnName": "tipoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "peliculaId",
+            "columnName": "peliculaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tipoId",
+            "peliculaId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c289f01f3ad3d479577684fec83965d6')"
+    ]
+  }
+}
