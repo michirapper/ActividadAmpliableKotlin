@@ -32,7 +32,8 @@ class FragmentFichaPelicula : Fragment(){
         thiscontext = container?.getContext();
         var dataRepository = thiscontext?.let { DataRepository(it) }
 
-        var alumnosGuardados = idAlumno?.let { dataRepository?.getPeliculaOne(it.toInt()) }
+        //var alumnosGuardados = idAlumno?.let { dataRepository?.getPeliculaOne(it.toInt()) }
+        var alumnosGuardados = idAlumno?.let { dataRepository?.getPeliculaOne(1) }
 
         textViewNombre = v.findViewById<View>(R.id.textViewFichaNombre) as TextView
 

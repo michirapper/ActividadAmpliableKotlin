@@ -16,7 +16,7 @@ class MainPeliculas : AppCompatActivity() {
 
     var frameLayoutFragmentPelicula: FrameLayout? = null
     var frameLayoutFragmentFicha: FrameLayout? = null
-    var frameLayoutLista: FrameLayout? = null
+    //var frameLayoutLista: FrameLayout? = null
     //  var frameLayoutFicha: FrameLayout? = null
 
     var listaFragmentAlumno: FragmentListaPelicula? = null
@@ -100,12 +100,14 @@ class MainPeliculas : AppCompatActivity() {
 
             frameLayoutFragmentFicha = findViewById(R.id.frameLayoutFicha)
 
+            frameLayoutFragmentPelicula = findViewById(R.id.frameLayoutPelicula)
+
             frameLayoutFragmentPelicula?.removeAllViewsInLayout()
             frameLayoutFragmentFicha?.removeAllViewsInLayout()
 
 
             listaFragmentAlumno = FragmentListaPelicula.newInstance()
-           // listaFragmentAlumno!!.activityListener = activityListener
+            listaFragmentAlumno!!.activityListener = activityListener
 
             listaFragmentAlumno!!.setArguments(asignaturaNombre)
 
@@ -124,6 +126,35 @@ class MainPeliculas : AppCompatActivity() {
             }
 
             fragmentTransaction.commit()
+        }
+    }
+    var activityListener = View.OnClickListener {
+       // if (frameLayoutFragmentPelicula!=null) {
+            if (frameLayoutFragmentFicha == null) {
+                val fragmentManager = supportFragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.frameLayoutPelicula, fichaFragment!!)
+                fragmentTransaction.commit()
+                fragmentManager.executePendingTransactions()
+                segundoFragmentActivo = true
+            }
+                Toast.makeText(this@MainPeliculas,listaFragmentAlumno!!.itemSeleccionado.toString(), Toast.LENGTH_SHORT).show()
+                fichaFragment!!.updateData(listaFragmentAlumno!!.itemSeleccionado)
+                //fichaFragment!!.updateData(listaFragmentAlumno!!.itemSeleccionado)
+
+
+    }
+    override fun onBackPressed() {
+        if (segundoFragmentActivo && frameLayoutFragmentPelicula != null){
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.frameLayoutPelicula, listaFragmentAlumno!!)
+            fragmentTransaction.commit()
+            fragmentManager.executePendingTransactions()
+            segundoFragmentActivo = false
+        }
+        else{
+            super.onBackPressed()
         }
     }
 }
