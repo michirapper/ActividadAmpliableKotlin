@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2544cf365eed720ccf374b04f72f84fe",
+    "identityHash": "f75b79a2134283daf30d1c48c26c1cef",
     "entities": [
       {
         "tableName": "Tipo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tipoId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tipoId` INTEGER NOT NULL, `nombre` TEXT, PRIMARY KEY(`tipoId`))",
         "fields": [
           {
             "fieldPath": "tipoId",
@@ -25,14 +25,14 @@
           "columnNames": [
             "tipoId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "Pelicula",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`peliculaId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`peliculaId` INTEGER NOT NULL, `nombre` TEXT, PRIMARY KEY(`peliculaId`))",
         "fields": [
           {
             "fieldPath": "peliculaId",
@@ -51,7 +51,7 @@
           "columnNames": [
             "peliculaId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -87,7 +87,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2544cf365eed720ccf374b04f72f84fe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f75b79a2134283daf30d1c48c26c1cef')"
     ]
   }
 }

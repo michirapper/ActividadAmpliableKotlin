@@ -38,7 +38,7 @@ class MainPeliculas : AppCompatActivity() {
         var ArraySpinner = ArrayList<String>()
         ArraySpinner.add("Seleccione uno:")
         for (items in pedidosGuardados) {
-            ArraySpinner.add(items.nombre.toString())
+            ArraySpinner.add(items.tipoId.toString() + "-" + items.nombre.toString())
         }
         //Rellenamos el spinner con el array que acabamos de hacer
         spinner.adapter =
@@ -48,7 +48,7 @@ class MainPeliculas : AppCompatActivity() {
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {override fun onItemSelected(parent: AdapterView<*>,view: View?,position: Int,id: Long) {
 
                     Toast.makeText(this@MainPeliculas,spinner.selectedItem.toString(),Toast.LENGTH_SHORT).show()
-                    //verProfesores(spinner.selectedItem.toString())
+                    verProfesores(spinner.selectedItem.toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -89,5 +89,41 @@ class MainPeliculas : AppCompatActivity() {
         dataRepository.insertTipoPeliculas(tipoPelicula1)
         dataRepository.insertTipoPeliculas(tipoPelicula2)
 
+    }
+    private fun verProfesores(asignatura: String){
+        if (!asignatura.equals("Seleccione uno:")) {
+
+            val asignaturaNombre = Bundle()
+            asignaturaNombre.putString("asignatura", asignatura)
+
+            frameLayoutFragmentPelicula = findViewById(R.id.frameLayoutPelicula)
+
+            frameLayoutFragmentFicha = findViewById(R.id.frameLayoutFicha)
+
+            frameLayoutFragmentPelicula?.removeAllViewsInLayout()
+            frameLayoutFragmentFicha?.removeAllViewsInLayout()
+
+
+            listaFragmentAlumno = FragmentListaPelicula.newInstance()
+           // listaFragmentAlumno!!.activityListener = activityListener
+
+            listaFragmentAlumno!!.setArguments(asignaturaNombre)
+
+            fichaFragment = FragmentFichaPelicula()
+
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            if (frameLayoutFragmentFicha !=null){
+                // HORIZONTAL
+                fragmentTransaction.add(R.id.frameLayoutPelicula, listaFragmentAlumno!!)
+                fragmentTransaction.add(R.id.frameLayoutFicha, fichaFragment!!)
+            }
+            else {
+                fragmentTransaction.add(R.id.frameLayoutPelicula, listaFragmentAlumno!!)
+            }
+
+            fragmentTransaction.commit()
+        }
     }
 }

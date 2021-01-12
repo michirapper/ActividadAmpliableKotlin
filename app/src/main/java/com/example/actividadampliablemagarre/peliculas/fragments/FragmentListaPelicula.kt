@@ -38,12 +38,17 @@ class FragmentListaPelicula : Fragment() {
             v.findViewById<View>(R.id.recyclerviewlista) as RecyclerView
         thiscontext = container?.getContext();
         var dataRepository = DataRepository(thiscontext!!)
-        var numeroAsignatura: Int
-        if (asignatura.equals("BBDD")) {
-            numeroAsignatura = 2
-        } else {
-            numeroAsignatura = 1
-        }
+        var numeroAsignatura: Int = 0
+        val idTipo = asignatura?.split("-")?.toTypedArray()
+//        if (asignatura.equals("BBDD")) {
+//            numeroAsignatura = 2
+//        } else {
+//            numeroAsignatura = 1
+//        }
+
+            numeroAsignatura = idTipo!!.get(0).toInt()
+
+        //numeroAsignatura = 1
 
 
         var alumnosGuardados = dataRepository.getPelicula(numeroAsignatura)
@@ -51,7 +56,7 @@ class FragmentListaPelicula : Fragment() {
 
         var items = ArrayList<pelicula>()
         for (i in 0..alumno.size-1) {
-            items.add(pelicula(alumno.get(i).peliculaId?.toInt(),alumno.get(i).nombre.toString()))
+            items.add(pelicula(alumno.get(i).peliculaId.toInt(),alumno.get(i).nombre.toString()))
         }
 
 
