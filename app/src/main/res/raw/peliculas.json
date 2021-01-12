@@ -1,4 +1,10 @@
 {
+  "tipos": [
+    "Ciencia Ficción",
+    "Comedia",
+    "Biopic",
+    "Terror"
+  ],
   "peliculas": [
     {
       "codigo": 1,

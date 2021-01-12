@@ -11,6 +11,9 @@ import com.example.actividadampliablemagarre.peliculas.database.Tipo
 import com.example.actividadampliablemagarre.peliculas.database.TipoPelicula
 import com.example.actividadampliablemagarre.peliculas.fragments.FragmentFichaPelicula
 import com.example.actividadampliablemagarre.peliculas.fragments.FragmentListaPelicula
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class MainPeliculas : AppCompatActivity() {
 
@@ -60,35 +63,88 @@ class MainPeliculas : AppCompatActivity() {
     }
 
     private fun rellenoBBDD() {
+//
+//        var tipoComedia = Tipo(1, "Comedia")
+//        var tipoBiopic = Tipo(2, "Biopic")
+//
+//        var Pelicula1 = Pelicula(1, "Star Wars")
+//        var Pelicula2 = Pelicula(2, "Terminator")
+//        var Pelicula3 = Pelicula(3, "Good Morning Vietman")
+//        var Pelicula4 = Pelicula(4, "Bohemian Rhapsody")
+//
+//
+//        var listaPeliculaComedia = ArrayList<Pelicula>()
+//        listaPeliculaComedia.add(Pelicula1)
+//        listaPeliculaComedia.add(Pelicula2)
+//
+//        var listaPeliculaBiopic = ArrayList<Pelicula>()
+//        listaPeliculaBiopic.add(Pelicula3)
+//        listaPeliculaBiopic.add(Pelicula4)
+//
+//
+//        var tipoPelicula1 = TipoPelicula(tipoComedia, listaPeliculaComedia)
+//
+//        var tipoPelicula2 = TipoPelicula(tipoBiopic, listaPeliculaBiopic)
+//
+//        var dataRepository = DataRepository(this)
+//
+//
+//        dataRepository.insertTipoPeliculas(tipoPelicula1)
+//        dataRepository.insertTipoPeliculas(tipoPelicula2)
 
-        var tipoComedia = Tipo(1, "Comedia")
-        var tipoBiopic = Tipo(2, "Biopic")
-
-        var Pelicula1 = Pelicula(1, "Star Wars")
-        var Pelicula2 = Pelicula(2, "Terminator")
-        var Pelicula3 = Pelicula(3, "Good Morning Vietman")
-        var Pelicula4 = Pelicula(4, "Bohemian Rhapsody")
 
 
-        var listaPeliculaComedia = ArrayList<Pelicula>()
-        listaPeliculaComedia.add(Pelicula1)
-        listaPeliculaComedia.add(Pelicula2)
-
-        var listaPeliculaBiopic = ArrayList<Pelicula>()
-        listaPeliculaBiopic.add(Pelicula3)
-        listaPeliculaBiopic.add(Pelicula4)
 
 
-        var tipoPelicula1 = TipoPelicula(tipoComedia, listaPeliculaComedia)
 
-        var tipoPelicula2 = TipoPelicula(tipoBiopic, listaPeliculaBiopic)
 
         var dataRepository = DataRepository(this)
 
+        var bufferedReaderRecurso = BufferedReader(InputStreamReader(resources.openRawResource(R.raw.peliculas)))
+        var textoLeido = bufferedReaderRecurso.readLine()
+        val todo = StringBuilder()
+        while (textoLeido != null) {
+            todo.append(textoLeido + "\n")
+            textoLeido = bufferedReaderRecurso.readLine()
+        }
+        textoLeido = todo.toString()
+        bufferedReaderRecurso.close()
 
-        dataRepository.insertTipoPeliculas(tipoPelicula1)
-        dataRepository.insertTipoPeliculas(tipoPelicula2)
+        val jsonObject = JSONObject(textoLeido)
+        val jsonArray = jsonObject.optJSONArray("tipos")
+        var listaPelicula = ArrayList<Pelicula>()
 
+        for (i in 0 until jsonArray.length()) {
+
+            listaPelicula.clear()
+
+            var tipo = Tipo(i + 1, jsonArray.get(i).toString())
+
+            val asignaturaTex = jsonArray.get(i).toString()
+
+            val jsonArrayProf = jsonObject.optJSONArray("peliculas")
+
+            for (i in 0 until jsonArrayProf.length()) {
+
+                val objeto = jsonArrayProf.getJSONObject(i)
+
+                if (objeto.optString("tipo").equals(asignaturaTex)) {
+
+                    var codigoPelicula = objeto.optString("codigo")
+                    var tipoPelicula = objeto.optString("titulo")
+                    var pelicula = Pelicula(codigoPelicula.toString().toInt(), tipoPelicula.toString())
+                    listaPelicula.add(pelicula)
+                }
+
+            }
+
+
+            var asignaturasAlumnos = TipoPelicula(tipo, listaPelicula)
+
+
+            dataRepository.insertTipoPeliculas(asignaturasAlumnos)
+
+    }
     }
     private fun verProfesores(asignatura: String){
         if (!asignatura.equals("Seleccione uno:")) {
