@@ -22,6 +22,6 @@ data class TipoPelicula(
 
 @Entity(primaryKeys = ["tipoId", "peliculaId"])
 data class TipoPeliculaCrossRef(
-    val tipoId: Int?,
-    val peliculaId: Int?
+    val tipoId: Int,
+    val peliculaId: Int
 )

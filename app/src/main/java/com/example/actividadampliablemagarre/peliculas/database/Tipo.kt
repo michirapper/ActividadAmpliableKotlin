@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Tipo(
-    @PrimaryKey(autoGenerate = true) val tipoId: Int?,
+    @PrimaryKey(autoGenerate = true) val tipoId: Int,
     val nombre: String?
 )
